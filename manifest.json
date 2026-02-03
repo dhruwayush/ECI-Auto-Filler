@@ -1,0 +1,28 @@
+{
+    "manifest_version": 3,
+    "name": "ECI Auto-Filler",
+    "version": "1.0",
+    "description": "Automates the ECI form filling process with file uploads.",
+    "permissions": [
+        "activeTab",
+        "scripting"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "https://official.eci.gov.in/*",
+                "https://*.eci.gov.in/*",
+                "<all_urls>"
+            ],
+            "js": [
+                "content.js"
+            ]
+        }
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "action": {
+        "default_title": "Toggle ECI Panel"
+    }
+}

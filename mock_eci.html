@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock ECI Portal</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .section {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        button {
+            padding: 8px 15px;
+            cursor: pointer;
+        }
+
+        .success-icon {
+            color: green;
+            font-weight: bold;
+            margin-left: 10px;
+            display: inline-block;
+        }
+
+        /* Structure mimicking */
+        #customModal {
+            border: 2px dashed #ccc;
+            padding: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Mock ECI Form</h1>
+
+        <div class="section">
+            <p>1. Elector Present?</p>
+            <button id="Y">YES</button>
+            <button id="N">NO</button>
+        </div>
+
+        <!-- The DOM hierarchy below is critical for the extension's XPaths -->
+        <!-- XPath: //*[@id="customModal"]/div/div[2]/div/div[4]/div[1]/div/button/i -->
+        <div id="customModal">
+            <!-- /div (Wrapper) -->
+            <div>
+                <!-- div[1] of wrapper (Spacer to make next one div[2]) -->
+                <div style="height:10px; background:#ddd;">Spacer (Level 1)</div>
+
+                <!-- /div[2] (Main Content Container) -->
+                <div>
+                    <!-- /div (Inner Container) -->
+                    <div>
+                        <!-- div[1], div[2], div[3] (Spacers to make next one div[4]) -->
+                        <div style="display:none;">1</div>
+                        <div style="display:none;">2</div>
+                        <div style="display:none;">3</div>
+
+                        <!-- /div[4] (The Photo/Attendance Section) -->
+                        <div>
+                            <!-- Photo Section: /div[1] -->
+                            <div>
+                                <label>Group Photo Upload</label>
+                                <input type="file" id="doc_photo">
+                                <!-- /div containing button/i -->
+                                <div id="photo_success_container">
+                                    <!-- Will be filled with: <button><i></i></button> -->
+                                </div>
+                            </div>
+                            <!-- Attendance Section: div[2] -->
+                            <div style="margin-top: 15px;">
+                                <label>Attendance Upload</label>
+                                <input type="file" id="doc_attendanceSheet">
+                                <div id="attendance_success_container">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="display:none;"></div>
+                        <div style="display:none;"></div>
+                        <div style="display:none;"></div>
+
+                        <!-- SIR Section: div[8] -->
+                        <!-- Wait, if current is div[4], we need 5,6,7 to reach 8 -->
+                        <div style="display:none;">5</div>
+                        <div style="display:none;">6</div>
+                        <div style="display:none;">7</div>
+
+                        <!-- div[8] -->
+                        <div>
+                            <div style="display:none;"></div>
+                            <div style="display:none;"></div>
+                            <div style="display:none;"></div>
+                            <div style="display:none;"></div>
+                            <!-- div[5] inside div[8] -->
+                            <div>
+                                <label>SIR Upload</label>
+                                <input type="file" id="doc_lastSirBack">
+                                <div id="sir_success_container">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="display:none;"></div>
+                        <div style="display:none;"></div>
+
+                        <!-- Remarks Section: div[11] -->
+                        <div>
+                            <div style="display:none;"></div>
+                            <div style="display:none;"></div>
+                            <!-- div[3] -->
+                            <div>
+                                <!-- div[1] -->
+                                <div>
+                                    <label>Remarks</label>
+                                    <textarea rows="3" style="width:100%"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="display:none;"></div>
+
+                        <!-- Submit Section: div[13] -->
+                        <div style="margin-top: 20px;">
+                            <!-- Need strict hierarchy for button too? script says: /div[13]/button -->
+                            <!-- If we are in the main container, we need div[9], div[10], div[11](remarks), div[12] -> div[13] -->
+                            <!-- Currently we have div[8] above. -->
+
+                            <!-- Adding spacers for 9, 10 -->
+                            <div style="display:none;">9</div>
+                            <div style="display:none;">10</div>
+
+                            <!-- div[11] is remarks already above. wait. remarks was just 'div' before? -->
+                            <!-- In pure flow: div[4](photo), 5,6,7, div[8](sir), 9,10, div[11](remarks), 12, div[13](submit) -->
+
+                            <!-- Let's ensure remarks is the 11th div child of 'Inner Container' -->
+                            <!-- Spacers after div[8] -->
+                            <div style="display:none;">9</div>
+                            <div style="display:none;">10</div>
+                            <!-- Remarks (This text block was placed wrong in flow above, moving conceptually) -->
+                            <!-- Remarks IS div[11] in my code above? No, I placed it *after* div[8]. it *is* the next real div. -->
+                            <!-- But I need to ensure it is the 11th child. -->
+                            <!-- Children so far: 1,2,3, 4(photo), 5,6,7, 8(sir), 9,10 -->
+                            <!-- So next one, Remarks, will be 11. CORRECT. -->
+
+                            <div style="display:none;">12</div>
+
+                            <!-- Submit is div[13] -->
+                            <div>
+                                <button>SUBMIT (Mock)</button>
+                            </div>
+                        </div>
+
+                    </div> <!-- End Inner Container -->
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <label>Final Publication Flag</label>
+            <input type="checkbox" id="updateInFinalPublicationFlag">
+        </div>
+
+    </div>
+
+    <script>
+        console.log("Mock ECI Page Loaded.");
+
+        // Helper to simulate upload success
+        function simulateUpload(inputId, containerId) {
+            document.getElementById(inputId).addEventListener('change', function () {
+                setTimeout(() => {
+                    const container = document.getElementById(containerId);
+                    // Create the structure expected: .../div/button/i
+                    // FIXED: Removed extra <div> wrapper to match XPath. BUT path ends in /div/button/i
+                    // So photo_success_container IS the /div.
+                    // It needs to contain <button><i></i></button>
+                    container.innerHTML = '<button><i>(Success)</i></button>';
+                    console.log(`${inputId} uploaded successfully.`);
+                }, 1000); // 1.5s delay
+            });
+        }
+
+        simulateUpload('doc_photo', 'photo_success_container');
+        simulateUpload('doc_attendanceSheet', 'attendance_success_container');
+        simulateUpload('doc_lastSirBack', 'sir_success_container');
+
+        // Button interactions
+        document.getElementById('Y').addEventListener('click', () => console.log('Clicked YES'));
+        document.getElementById('N').addEventListener('click', () => console.log('Clicked NO'));
+        document.getElementById('updateInFinalPublicationFlag').addEventListener('click', () => console.log('Clicked Final Flag'));
+
+        // Submit button: we need to find it by the same logic to attach listener
+        // It's deep nested now.
+        // simpler: select via text content
+        const buttons = document.getElementsByTagName('button');
+        for (let btn of buttons) {
+            if (btn.innerText.includes('SUBMIT')) {
+                btn.addEventListener('click', () => {
+                    alert("FORM SUBMITTED AUTOMATICALLY!");
+                    console.log("Form Submitted.");
+                });
+            }
+        }
+    </script>
+
+</body>
+
+</html>
