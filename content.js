@@ -237,30 +237,40 @@ async function runAutomation() {
         clickByXPath('(//*[@id="Y"])[2]');
         await wait(500);
 
-        updateStatus("3. Uploading Group Photo...");
+        updateStatus("3. Checking Group Photo...");
         // 3. Upload Group Photo
-        uploadFileToInput('//*[@id="doc_photo"]', groupFile);
+        if (elementExists('//input[@id="doc_photo"]/following::button[1]/i')) {
+            updateStatus("Group Photo already uploaded. Skipping.");
+        } else {
+            updateStatus("Uploading Group Photo...");
+            uploadFileToInput('//*[@id="doc_photo"]', groupFile);
 
-        // Wait for Success Icon (Relative XPath: First button/icon after the input)
-        updateStatus("Waiting for Photo verification...");
-        let retries = 0;
-        // Search for <i> inside a <button> that follows the input
-        while (!elementExists('//input[@id="doc_photo"]/following::button[1]/i')) {
-            await wait(1000);
-            retries++;
-            if (retries > 30) throw "Timeout waiting for Group Photo upload";
+            // Wait for Success Icon (Relative XPath: First button/icon after the input)
+            updateStatus("Waiting for Photo verification...");
+            let retries = 0;
+            // Search for <i> inside a <button> that follows the input
+            while (!elementExists('//input[@id="doc_photo"]/following::button[1]/i')) {
+                await wait(1000);
+                retries++;
+                if (retries > 30) throw "Timeout waiting for Group Photo upload";
+            }
         }
 
-        updateStatus("4. Uploading Attendance...");
+        updateStatus("4. Checking Attendance...");
         // 4. Upload Attendance
-        uploadFileToInput('//*[@id="doc_attendanceSheet"]', attendanceFile);
+        if (elementExists('//input[@id="doc_attendanceSheet"]/following::button[1]/i')) {
+            updateStatus("Attendance already uploaded. Skipping.");
+        } else {
+            updateStatus("Uploading Attendance...");
+            uploadFileToInput('//*[@id="doc_attendanceSheet"]', attendanceFile);
 
-        updateStatus("Waiting for Attendance verification...");
-        retries = 0;
-        while (!elementExists('//input[@id="doc_attendanceSheet"]/following::button[1]/i')) {
-            await wait(1000);
-            retries++;
-            if (retries > 30) throw "Timeout waiting for Attendance upload";
+            updateStatus("Waiting for Attendance verification...");
+            retries = 0;
+            while (!elementExists('//input[@id="doc_attendanceSheet"]/following::button[1]/i')) {
+                await wait(1000);
+                retries++;
+                if (retries > 30) throw "Timeout waiting for Attendance upload";
+            }
         }
 
         // 5. SIR Check (Front)
